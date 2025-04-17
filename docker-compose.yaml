@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+  postgres_volume:
+
+services:
+  pg:
+    image: postgres:14-alpine3.17
+    container_name: auth
+    environment:
+      - "POSTGRES_DB=${DB_NAME}"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
