@@ -10,9 +10,9 @@ import (
 )
 
 type Store struct {
-	pool           *pgxpool.Pool
-	logger         *logrus.Logger
-	SongRepository *RefreshTokenRepository
+	pool                   *pgxpool.Pool
+	logger                 *logrus.Logger
+	RefreshTokenRepository *RefreshTokenRepository
 }
 
 func NewConnection(cfg *config.Config, logger *logrus.Logger) (*Store, error) {
@@ -27,7 +27,7 @@ func NewConnection(cfg *config.Config, logger *logrus.Logger) (*Store, error) {
 		logger: logger,
 	}
 
-	store.SongRepository = &RefreshTokenRepository{store: store}
+	store.RefreshTokenRepository = &RefreshTokenRepository{store: store, logger: logger}
 
 	return store, nil
 }

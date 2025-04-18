@@ -10,20 +10,21 @@ import (
 type Claims struct {
 	UserID    uuid.UUID `json:"user_id"`
 	IPAddress string    `json:"ip_address"`
+	JTI       uuid.UUID
 	jwt.RegisteredClaims
 }
 
 type RefreshToken struct {
-	ID        int
-	UserID    uuid.UUID
-	TokenHash string
-	IssuedAt  time.Time
-	ExpiresAt time.Time
-	IPAddress string
+	ID             int
+	UserID         uuid.UUID
+	TokenHash      string
+	IssuedAt       time.Time
+	ExpiresAt      time.Time
+	IPAddress      string
+	AccessTokenJTI uuid.UUID
 }
 
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
-

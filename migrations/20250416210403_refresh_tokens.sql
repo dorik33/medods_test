@@ -3,10 +3,12 @@
 CREATE TABLE refresh_tokens (
     id SERIAL PRIMARY KEY,
     user_id UUID NOT NULL,
+    access_token_jti UUID NOT NULL,
     token_hash VARCHAR(255) NOT NULL,
     issued_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
     ip_address VARCHAR(50) NOT NULL
+
 );
 -- +goose StatementEnd
 

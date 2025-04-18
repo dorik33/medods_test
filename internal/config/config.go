@@ -10,12 +10,20 @@ type Config struct {
 	LogLevel        string        `env:"LOG_LEVEL"`
 	Addr            string        `env:"ADDR"`
 	WriteTimeout    time.Duration `env:"WRITETIMEOUT"`
-	DatabaseURL     string        `envconfig:"DATABASE_URL" required:"true"`
-	JWTSecret       string        `envconfig:"JWT_SECRET" required:"true"`
-	AccessTokenTTL  time.Duration `envconfig:"ACCESS_TOKEN_TTL" default:"15m"`
-	RefreshTokenTTL time.Duration `envconfig:"REFRESH_TOKEN_TTL" default:"720h"`
-	Port            string        `envconfig:"PORT" default:"8080"`
-	MockEmail       string        `envconfig:"MOCK_EMAIL"`
+	DatabaseURL     string        `env:"DATABASE_URL" required:"true"`
+	JWTSecret       string        `env:"JWT_SECRET" required:"true"`
+	AccessTokenTTL  time.Duration `env:"ACCESS_TOKEN_TTL" default:"15m"`
+	RefreshTokenTTL time.Duration `env:"REFRESH_TOKEN_TTL" default:"720h"`
+	MockEmail       string        `env:"MOCK_EMAIL"`
+	SMTPConfig      SMTPConfig
+}
+
+type SMTPConfig struct {
+	EmailFrom     string `env:"EMAIL_FROM"`
+	EmailPassword string `env:"EMAIL_PASSWORD"`
+	EmailTo       string `env:"EMAIL_TO"`
+	SMTPServer    string `env:"EMAIL_SMTP_SERVER"`
+	SMTPPort      string `env:"EMAIL_SMTP_PORT"`
 }
 
 func Load(path string) (*Config, error) {

@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/dorik33/medods_test/internal/auth"
 	"github.com/dorik33/medods_test/internal/config"
@@ -48,9 +47,7 @@ func (api *API) Start() error {
 
 	api.auth = auth.NewService(
 		api.store,
-		api.config.JWTSecret,
-		api.config.AccessTokenTTL*time.Minute, // Пример для конвертации в минуты
-		api.config.RefreshTokenTTL*time.Hour,  // Пример для конвертации в часы
+		api.config,
 	)
 
 	api.handlers = handlers.NewHandlers(api.logger, api.store, api.auth)
@@ -62,6 +59,7 @@ func (api *API) Start() error {
 	}
 
 	api.logger.Debug("Server is running with addr: ", api.config.Addr)
+
 	return server.ListenAndServe()
 }
 
@@ -83,5 +81,6 @@ func (api *API) configureLogger() error {
 func (api *API) configureRouter() {
 	api.router.Use(middleware.JSONContentTypeMiddleware)
 	api.router.Use(middleware.LoggingMiddleware(api.logger))
-
+	api.router.HandleFunc("/auth/token", api.handlers.GenerateTokensHandler).Methods("GET")
+	api.router.HandleFunc("/auth/token/refresh", api.handlers.RefreshTokenHandler).Methods("POST")
 }
